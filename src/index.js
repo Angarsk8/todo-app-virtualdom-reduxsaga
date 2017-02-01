@@ -3,6 +3,7 @@ import diff from 'virtual-dom/diff'
 import patch from 'virtual-dom/patch'
 import store from './store'
 import App from './components/App'
+import './main.css'
 
 let appTree = App()
 let rootNode = createElement(appTree)

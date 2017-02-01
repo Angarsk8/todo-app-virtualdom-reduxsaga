@@ -2,9 +2,9 @@ import vdom from 'virtual-dom'
 import hx from 'hyperx'
 import store from '../store'
 
-export function loadState() {
+export function loadTodos() {
   try {
-    const serializedState = localStorage.getItem('state')
+    const serializedState = localStorage.getItem('todos')
     if (serializedState) {
       return JSON.parse(serializedState)
     }
@@ -15,10 +15,10 @@ export function loadState() {
   }
 }
 
-export function saveState(state) {
+export function saveTodos(todos) {
   try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    const serializedState = JSON.stringify(todos)
+    localStorage.setItem('todos', serializedState)
   } catch (e) {
     console.log(`The state couldn't be saved: ${e.message}`)
   }

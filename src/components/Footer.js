@@ -4,7 +4,7 @@ import FilterLink from '../containers/FilterLink'
 
 function Footer() {
   return html`
-    <div>
+    <div id="filters">
       Show:
       ${FilterLink({
         filter: constants.SHOW_ALL,
@@ -16,7 +16,7 @@ function Footer() {
       })}
       ${FilterLink({
         filter: constants.SHOW_COMPLETED,
-        children: 'Completed '
+        children: 'Completed'
       })}
     </div>
   `

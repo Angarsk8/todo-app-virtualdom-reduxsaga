@@ -1,6 +1,6 @@
 import { html } from '../utils'
 
-function TodoForm({ onAddTodo }) {
+function TodoForm({ isDisabled, onAddTodo }) {
   return html`
     <form
       onsubmit=${e => {
@@ -14,7 +14,12 @@ function TodoForm({ onAddTodo }) {
         }
       }}
     >
-      <input id="todo-input" type="text"/>
+      <input
+        id="todo-input"
+        type="text"
+        ${isDisabled ? 'disabled' : ''}
+        autofocus
+      />
     </form>
   `
 }

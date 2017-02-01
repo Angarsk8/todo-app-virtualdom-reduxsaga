@@ -1,6 +1,12 @@
 import { html } from '../utils'
 
-function Todo({ id, text, completed, onToggleTodo, onDeleteTodo }) {
+function Todo({ id, text, completed, valid, onToggleTodo, onDeleteTodo }) {
+  if (!valid) {
+    return html`
+      <li><span class="loading dots"></span></li>
+    `
+  }
+
   return html`
     <li id=${id}>
       <span
@@ -9,6 +15,7 @@ function Todo({ id, text, completed, onToggleTodo, onDeleteTodo }) {
         }}
         style=${{
           'color': 'red',
+          'margin-left': '5px',
           'margin-right': '10px',
           'cursor': 'pointer'
         }}

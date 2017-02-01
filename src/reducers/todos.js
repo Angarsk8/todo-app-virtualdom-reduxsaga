@@ -3,16 +3,19 @@ import { combineReducers } from 'redux'
 
 function byId(state = {}, action) {
   switch (action.type) {
-    case constants.ADD_TODO:
+    case constants.FETCH_TODOS_RESPONSE:
+      return action.todos.byId
+    case constants.ADD_TODO_SUCCESS:
       return {
         ...state,
         [action.id]: {
           id: action.id,
           text: action.text,
-          completed: false
+          completed: false,
+          valid: true
         }
       }
-    case constants.TOGGLE_TODO:
+    case constants.TOGGLE_TODO_SUCCESS:
       return {
         ...state,
         [action.id]: {
@@ -20,7 +23,15 @@ function byId(state = {}, action) {
           completed: !state[action.id].completed
         }
       }
-    case constants.DELETE_TODO:
+    case constants.TOGGLE_TODO_VALIDITY:
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          valid: !state[action.id].valid
+        }
+      }
+    case constants.DELETE_TODO_SUCCESS:
       const newState = { ...state }
       delete newState[action.id]
       return newState
@@ -31,9 +42,11 @@ function byId(state = {}, action) {
 
 function allIds(state = [], action) {
   switch (action.type) {
-    case constants.ADD_TODO:
+    case constants.FETCH_TODOS_RESPONSE:
+      return action.todos.allIds
+    case constants.ADD_TODO_SUCCESS:
       return [ ...state, action.id ]
-    case constants.DELETE_TODO:
+    case constants.DELETE_TODO_SUCCESS:
       return state.filter(id => id !== action.id)
     default:
       return state
