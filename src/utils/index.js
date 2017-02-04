@@ -3,16 +3,16 @@ import hx from 'hyperx'
 import store from '../store'
 
 export function loadTodos() {
-  try {
-    const serializedState = localStorage.getItem('todos')
-    if (serializedState) {
-      return JSON.parse(serializedState)
-    }
-
-    return undefined
-  } catch (_) {
-    return undefined
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const serializedState = localStorage.getItem('todos')
+      if (serializedState) {
+        resolve(JSON.parse(serializedState))
+      } else {
+        reject('Failed trying to fetch the persisted todo state')
+      }
+    }, 1000)
+  })
 }
 
 export function saveTodos(todos) {
@@ -38,3 +38,14 @@ export function connect(stateToProps, actionsToProps) {
 }
 
 export const html = hx(vdom.h)
+
+export function createBinaryReducer(actionConstant, initialState = false) {
+  return function (state = initialState, action) {
+    switch (action.type) {
+      case actionConstant:
+        return !state
+      default:
+        return state
+    }
+  }
+}

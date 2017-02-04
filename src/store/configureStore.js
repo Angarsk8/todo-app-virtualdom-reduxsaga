@@ -1,9 +1,23 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import createLogger from 'redux-logger'
+import * as constants from '../constants'
 import { saveTodos } from '../utils'
 import reducers from '../reducers'
 import sagas from '../sagas'
+
+const saveMiddleware = store => next => action => {
+  const result = next(action)
+
+  if (
+    action.type === constants.DELETE_TODO_SUCCESS ||
+    action.type === constants.ADD_TODO_SUCCESS
+  ) {
+    saveTodos(store.getState().todos)
+  }
+
+  return result
+}
 
 function configureStore() {
   const sagaMiddleware = createSagaMiddleware()
@@ -19,16 +33,9 @@ function configureStore() {
   const store = createStore(
     reducers,
     composeEnhancers(
-      applyMiddleware(...middlewares)
+      applyMiddleware(...middlewares, saveMiddleware)
     )
   )
-
-  store.subscribe(() => {
-    const todos = store.getState().todos
-    if(todos.allIds.length > 0) {
-      saveTodos(store.getState().todos)
-    }
-  })
 
   sagaMiddleware.run(sagas)
 

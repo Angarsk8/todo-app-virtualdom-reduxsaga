@@ -1,12 +1,7 @@
 import { html } from '../utils'
+import Loading from './Loading'
 
 function Todo({ id, text, completed, valid, onToggleTodo, onDeleteTodo }) {
-  if (!valid) {
-    return html`
-      <li><span class="loading dots"></span></li>
-    `
-  }
-
   return html`
     <li id=${id}>
       <span
@@ -14,10 +9,10 @@ function Todo({ id, text, completed, valid, onToggleTodo, onDeleteTodo }) {
           onDeleteTodo(id)
         }}
         style=${{
-          'color': 'red',
-          'margin-left': '5px',
-          'margin-right': '10px',
-          'cursor': 'pointer'
+          color: 'red',
+          marginLeft: '5px',
+          marginRight: '10px',
+          cursor: 'pointer'
         }}
       >x</span>
       <span
@@ -25,9 +20,11 @@ function Todo({ id, text, completed, valid, onToggleTodo, onDeleteTodo }) {
           onToggleTodo(id)
         }}
         style=${{
-          'text-decoration': `${ completed ? 'line-through' : 'none' }`
+          textDecoration: `${ completed ? 'line-through' : 'none' }`,
+          backgroundColor: `${ !valid ? 'rgb(255, 250, 207)' : '' }`
         }}
       >${text}</span>
+      ${!valid ? Loading() : ''}
     </li>
   `
 }

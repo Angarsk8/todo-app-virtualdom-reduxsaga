@@ -1,24 +1,7 @@
-import * as constants from '../constants'
 import { combineReducers } from 'redux'
+import * as constants from '../constants'
+import { createBinaryReducer } from '../utils'
 import todos, { getAllTodos as _getAllTodos } from './todos'
-
-function isInputDisabled(state = false, action) {
-  switch (action.type) {
-    case constants.TOGGLE_INPUT:
-      return !state
-    default:
-      return state
-  }
-}
-
-function isFetchingTodos(state = false, action) {
-  switch (action.type) {
-    case constants.TOGGLE_LOADING:
-      return !state
-    default:
-      return state
-  }
-}
 
 function visibilityFilter(state = constants.SHOW_ALL, action) {
   switch (action.type) {
@@ -31,8 +14,8 @@ function visibilityFilter(state = constants.SHOW_ALL, action) {
 
 const reducers = combineReducers({
   todos,
-  isInputDisabled,
-  isFetchingTodos,
+  isInputDisabled: createBinaryReducer(constants.TOGGLE_INPUT),
+  isFetchingTodos: createBinaryReducer(constants.TOGGLE_LOADING),
   visibilityFilter
 })
 
