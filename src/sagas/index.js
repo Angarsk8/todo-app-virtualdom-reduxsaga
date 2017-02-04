@@ -20,6 +20,7 @@ function* fetchTodosRequest(action) {
 function* addTodoRequest(action) {
   yield fx.put(actions.toggleInput())
   yield fx.call(delay, 500)
+
   yield fx.put(actions.addTodo(action.text))
   yield fx.put(actions.toggleInput())
 }
